@@ -1,0 +1,197 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+:root {
+    --c-primary: #1D2D44;
+    --c-secondary: #00B0A0;
+    --c-tertiary: #5aff7e;
+    --c-background: #131d2b;
+    --c-white: #F9F9F9;
+    --c-grey: #4F5B66;
+}
+
+* {
+    font-family: 'Lexend', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    background-color: var(--c-background);
+    color: var(--c-white);
+}
+
+body {
+    padding: 60px 120px;
+}
+
+article {
+    margin-bottom: 60px;
+}
+
+h2 {
+    font-size: 64px;
+    margin-bottom: 40px;
+
+    & .large {
+        background-image: linear-gradient(90deg, var(--c-secondary), var(--c-tertiary));
+        background-size: 150%;
+        color: transparent;
+        background-clip: text;
+        background-position: 0%;
+        transition: 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+            background-position: 50%;
+            text-shadow: var(--c-tertiary) 0px 0px 4px;
+        }
+
+    }
+}
+
+.form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 30%;
+    margin: auto;
+    
+    & .file-input {
+        cursor: pointer;
+        display: flex;
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        border: 2px solid var(--c-secondary);
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        transition: 0.3s ease;
+        background-size: cover;
+        background-position: center;
+    
+        &:hover {
+            border-color: var(--c-tertiary);
+            box-shadow: var(--c-tertiary) 0px 0px 10px;
+        }
+    
+        &.filled {
+            text-shadow: var(--c-background) 0px 0px 5px, var(--c-background) 0px 0px 10px;
+        }
+    }
+    
+    & .submit {
+        background-color: var(--c-secondary);
+        color: var(--c-white);
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        border: none;
+        color: var(--c-background);
+    
+        &:not(:disabled):hover {
+            background-color: var(--c-tertiary);
+            box-shadow: var(--c-tertiary) 0px 0px 10px;
+        }
+    
+        &:disabled {
+            background-color: var(--c-grey);
+            cursor: not-allowed;
+        }
+    }
+
+    & .file-clear {
+        position: absolute;
+        top:   15px;
+        right: 15px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        font-size: 1rem;
+        color: var(--c-white);
+        transition: 0.3s ease;
+
+        &:not(:disabled):hover {
+            color: var(--c-tertiary);
+            text-shadow: var(--c-tertiary) 0px 0px 4px;
+        }
+
+        &:disabled {
+            color: var(--c-grey);
+            cursor: not-allowed;
+        }
+    }
+}
+
+
+dialog {
+    border: none;
+    background-color: var(--c-background);
+    color: var(--c-white);
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+#result {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    margin-top: 40px;
+    gap: 10px 20px;
+    width: max-content;
+    align-items: center;
+    max-width: 100%;
+    
+    & code {
+        background-color: var(--c-primary);
+        color: var(--c-white);
+        padding: 5px 15px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        overflow-x: hidden;
+
+        & span {
+            text-wrap: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+
+        & i {
+            cursor: pointer;
+            transition: 0.3s ease;
+            font-size: 12px;
+            padding: 2px 5px;
+            min-width: max-content;
+
+            &:hover {color: var(--c-tertiary);}
+        }
+    }
+
+    & p, #result-img {margin: 5px 15px;}
+
+    & #result-img {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.hidden {display: none;}
+
+#loading img {width: 100px;}
+

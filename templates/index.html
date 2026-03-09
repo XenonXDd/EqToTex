@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
+        <script src="https://kit.fontawesome.com/cc609a1703.js" crossorigin="anonymous"></script>
+        <title>Eq2Tex</title>
+    </head>
+    <body>
+        <dialog id="loading">
+            <!-- <img src="{{ url_for('static', filename='loading.gif') }}" alt="Loading"> -->
+            <p>Processing...</p>
+        </dialog>
+
+        <article>
+            <h2>Convert your equations to LaTeX <br> with <span class="large">Eq2Tex</span>!</h2>
+            <p>Upload an image of your equation, and we'll automatically convert it to LaTeX format.</p>
+        </article>
+            
+        <article class="form">
+            <input type="file" name="image" id="image" class="hidden">
+            <label for="image" class="file-input" id="file-input">Choose a file</label>
+            <button class="file-clear" disabled onclick="clearFile()"><i class="fas fa-trash-alt"></i></button>
+            
+            <button class="submit" onclick="submit()" disabled>Submit</button>
+        </article>
+
+        <div id="result">
+            <p>Result: </p>
+            <code style="visibility: hidden;">
+                <span id="result-text"></span>
+                <i id="copy-icon" class="fas fa-copy" onclick="copy()"></i>
+            </code>
+
+            <p>Preview: </p>
+            <span id="result-img"></span>
+        </div>
+
+        <script>
+            const dialog = document.getElementById('loading');
+            const fileInput = document.getElementById('file-input');
+            const submitButton = document.querySelector('.submit');
+            const result = document.getElementById('result');
+            const imageSelect = document.getElementById('image');
+            const fileClear = document.querySelector('.file-clear');
+
+            function submit() {
+                const image = imageSelect.files[0];
+                const formData = new FormData();
+
+                formData.append('image', image);
+
+                dialog.showModal();
+
+                fetch('/api/ask', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {'enctype': 'multipart/form-data'}
+                }).then(response => response.json()).then(data => {
+                    const resultText = document.getElementById('result-text');
+                    resultText.textContent = data['result'];
+                    resultText.title = data['result'];
+                    resultText.parentElement.style.visibility = 'visible';
+
+                    const image = document.createElement('img');
+                    image.src = `https://latex.codecogs.com/svg.image?{\\color{White} ${data['result']}}`;
+
+                    document.getElementById('result-img').innerHTML = ''; // Clear previous image
+                    document.getElementById('result-img').appendChild(image);
+
+                    dialog.close();
+                });
+            }
+
+            function copy() {
+                const resultText = document.getElementById('result-text').textContent;
+                navigator.clipboard.writeText(resultText).then(() => {
+                    const copyIcon = document.getElementById('copy-icon');
+                    copyIcon.classList.remove('fa-copy');
+                    copyIcon.classList.add('fa-check-circle');
+                    setTimeout(() => {
+                        copyIcon.classList.remove('fa-check-circle');
+                        copyIcon.classList.add('fa-copy');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error copying text: ', err);
+                });
+            }
+
+            function clearFile() {
+                fileInput.textContent = 'Choose a file';
+                fileInput.classList.remove('filled');
+                fileInput.style.backgroundImage = 'none';
+
+                imageSelect.value = ''; // Clear the file input
+                fileClear.setAttribute('disabled', true);
+                submitButton.setAttribute('disabled', true);
+            }
+
+            imageSelect.addEventListener('change', () => {
+                let file = imageSelect.files[0];
+
+                fileInput.textContent = file.name;
+                fileInput.classList.add('filled');
+                fileInput.style.backgroundImage = `url(${URL.createObjectURL(file)}`;
+
+                fileClear.removeAttribute('disabled');
+                submitButton.removeAttribute('disabled');
+            });
+        </script>
+    </body>
+</html>
