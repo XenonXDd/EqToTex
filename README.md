@@ -26,5 +26,8 @@ If you want to try it out on your own computer:
 
 *(the app automatically deletes them after 10 minutes from the `upload` folder so your computer doesn't run out of space).*
 
+I worked on this project with Matěj Kmínek
+
 Thanks for checking out our project!
+
 
