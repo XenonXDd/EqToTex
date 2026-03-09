@@ -1,6 +1,6 @@
 # Eq2Tex 
 
-Hey there! Welcome to Eq2Tex. This is a fun student project that turns pictures of math equations into LaTeX code. We know typing out complex math formulas can be a huge pain, so we built this little app to do the heavy lifting for you!
+Welcome to Eq2Tex. This is a fun student project that turns pictures of math equations into LaTeX code. We know typing out complex math formulas can be a huge pain, so we built this little app to do the heavy lifting for you!
 
 ## How it Works
 
@@ -29,5 +29,6 @@ If you want to try it out on your own computer:
 I worked on this project with Matěj Kmínek
 
 Thanks for checking out our project!
+
 
 
